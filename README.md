@@ -11,3 +11,8 @@ pip install logging
 pip install asyncio
 pip install aiogram
 ```
+## Usage
+### Don't forget to insert your bot's **TOKEN** in the line designated for it.
+```python
+TOKEN = "YOUR_TOKEN"
+```
