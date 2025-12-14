@@ -15,6 +15,7 @@ ___
 ### Клонировать репозиторий
 ```python
 https://github.com/Michail3078/Wordle_Game.git
+cd Cube_hakaton
 ```
 ### Установить зависиммости
 ```python
