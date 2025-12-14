@@ -1,0 +1,15 @@
+For Main File
+import hashlib as hl
+import time
+from soupsieve.util import lower
+import wordle_game as game
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from datetime import datetime
+import word_generator as wg
+import config
+import logging
+import asyncio
+from aiogram import Bot, Dispatcher
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
+from base import SQL
+
