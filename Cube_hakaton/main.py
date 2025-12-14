@@ -1,24 +1,15 @@
 import hashlib as hl
 import time
-
-from matplotlib.pyplot import title
-from pyexpat.errors import messages
-from aiogram.client.default import DefaultBotProperties
-from soupsieve.util import lower
-
 import wordle_game as game
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from datetime import datetime, timedelta
+from datetime import datetime
 import word_generator as wg
 import config
 import logging
 import asyncio
-from aiogram import Bot, Dispatcher, types
-from aiogram.types import ReplyKeyboardRemove, \
-    ReplyKeyboardMarkup, KeyboardButton, \
-    InlineKeyboardMarkup, InlineKeyboardButton, InputFile, InputMediaPhoto, FSInputFile
+from aiogram import Bot, Dispatcher
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile
 from base import SQL
-from aiogram.enums import ParseMode
 
 db = SQL('db.db')
 
@@ -96,7 +87,7 @@ async def start(message):
     id = message.from_user.id
 
     if hl.sha256(message.text.encode()).hexdigest() == config.ADMINCODE: #user вводит зашифрованный
-        await bot.delete_message(id, message.message_id -1)
+        #await bot.delete_message(id, message.message_id -1)
         db.add_user(id, "admins")
         await message.answer("Пожалуйста введите свое имя:")
         return
@@ -110,7 +101,7 @@ async def start(message):
     elif db.user_exist(id, "admins"): # если user в таблице админов
 
         if db.get_field("admins", id, "status") == 0:
-            await bot.delete_message(id, message.message_id - 1)
+            #await bot.delete_message(id, message.message_id - 1)
             db.update_field("admins", id, "name", message.text)
             db.update_field("admins", id, "status", 1)
 
@@ -164,14 +155,14 @@ async def start(message):
             await message.answer_photo(photo=FSInputFile("images/i.jpg"), reply_markup=kb7)
 
         if db.get_field("users", id, "status") == 0:
-            await bot.delete_message(message.chat.id, message.message_id - 1)
+            #await bot.delete_message(message.chat.id, message.message_id - 1)
             db.update_field("users", id, "name", message.text)
             db.update_field("users", id, "status", 1)
             await message.answer_photo(caption="Вы зарегистрировались!", photo=FSInputFile("images/apr.jpg"), reply_markup=kb8)
 
         if db.get_field("users", id, "status") == 2:
             word = db.get_daily(True)[0]
-            game_result = game.w_game(word, lower(message.text))
+            game_result = game.w_game(word, message.text.lower())
 
             if game_result != False:
                 await message.answer(game_result+"\n "+"   ".join(message.text))
@@ -196,7 +187,7 @@ async def start(message):
 
         if db.get_field("users", id, "status") == 3:
             word = db.get_daily(0)[0]
-            game_result = game.w_game(word, lower(message.text))
+            game_result = game.w_game(word, message.text.lower())
 
             if game_result != False:
                 await message.answer(game_result+"\n "+"   ".join(message.text))
