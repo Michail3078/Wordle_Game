@@ -8,15 +8,7 @@ ___
 ___
 ## Installation
 ```python
-pip install sqlite3
-pip install hashlib
-pip install soupsieve
-pip install apscheduler
-pip install datetime
-pip install logging
-pip install asyncio
-pip install aiogram
-pip install bs4
+pip install -r requirements.txt
 ```
 ## Usage
 ### Don't forget to insert your bot's **TOKEN** in the line designated for it.
